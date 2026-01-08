@@ -1,9 +1,5 @@
 """Tests for authentication routes (signin, signup, logout)."""
 
-import pytest
-from werkzeug.security import check_password_hash, generate_password_hash
-from unittest.mock import patch, MagicMock
-
 
 class TestSignin:
     """Tests for the signin/login route."""

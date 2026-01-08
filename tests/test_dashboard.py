@@ -1,8 +1,5 @@
 """Tests for dashboard and profile routes."""
 
-import pytest
-from werkzeug.security import generate_password_hash
-
 
 class TestDashboard:
     """Tests for the dashboard route."""

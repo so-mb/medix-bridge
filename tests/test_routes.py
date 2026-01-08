@@ -1,8 +1,5 @@
 """Tests for basic routes and error handlers."""
 
-import pytest
-import os
-
 
 class TestRootRoute:
     """Tests for the root route."""

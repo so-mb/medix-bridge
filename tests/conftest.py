@@ -1,7 +1,7 @@
 """Pytest configuration and fixtures for testing the Flask application."""
 
 import pytest
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 from werkzeug.security import generate_password_hash
 from main import app
 

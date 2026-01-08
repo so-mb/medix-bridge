@@ -1,8 +1,5 @@
 """Tests for patient management routes."""
 
-import pytest
-from werkzeug.security import generate_password_hash
-
 
 class TestRegisterPatient:
     """Tests for the register-patient route."""
