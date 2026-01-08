@@ -185,15 +185,33 @@ class TestEditPatient:
         assert response.status_code == 200
 
     def test_edit_patient_post_success(
-        self, authenticated_session, mock_mysql, mock_cursor, sample_doctor
+        self,
+        authenticated_session,
+        mock_mysql,
+        mock_cursor,
+        sample_doctor,
+        sample_patient,
     ):
         """Test POST request to update patient."""
-        # Mock doctor fetch
-        mock_cursor.fetchone.return_value = {
+        # Mock doctor fetch (first call)
+        # After redirect, need to fetch doctor again and patient data
+        doctor_data = {
             "first_name": sample_doctor["first_name"],
             "last_name": sample_doctor["last_name"],
             "specialty": sample_doctor["specialty"],
         }
+        # Create complete patient data with all required fields including file_upload
+        patient_data = {
+            **sample_patient,
+            "file_upload": None,  # Ensure file_upload key exists
+        }
+        # First fetchone: doctor before update
+        # After redirect: doctor fetch, then patient fetch
+        mock_cursor.fetchone.side_effect = [
+            doctor_data,  # Initial doctor fetch
+            doctor_data,  # Doctor fetch after redirect
+            patient_data,  # Patient fetch after redirect
+        ]
 
         response = authenticated_session.post(
             "/edit-patient/1",

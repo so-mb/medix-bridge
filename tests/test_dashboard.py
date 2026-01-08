@@ -120,9 +120,26 @@ class TestUpdatePassword:
         self, authenticated_session, mock_mysql, mock_cursor, sample_doctor
     ):
         """Test successful password update."""
-        # First call returns user with old password
-        # Second call is for the update
-        mock_cursor.fetchone.return_value = {"password": sample_doctor["password"]}
+        # First call returns user with old password for verification
+        # After redirect to my_profile, it needs user profile data
+        user_profile = {
+            "first_name": sample_doctor["first_name"],
+            "last_name": sample_doctor["last_name"],
+            "birth_date": sample_doctor["birth_date"],
+            "gender": sample_doctor["gender"],
+            "email_address": sample_doctor["email_address"],
+            "phone_number": sample_doctor["phone_number"],
+            "work_address": sample_doctor["work_address"],
+            "specialty": sample_doctor["specialty"],
+            "nationality": sample_doctor["nationality"],
+            "license_number": sample_doctor["license_number"],
+        }
+        # First fetchone: get password for verification
+        # Second fetchone: get user profile after redirect
+        mock_cursor.fetchone.side_effect = [
+            {"password": sample_doctor["password"]},
+            user_profile,
+        ]
 
         response = authenticated_session.post(
             "/update-password",
